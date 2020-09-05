@@ -36,18 +36,18 @@ namespace SalesApi.Controllers
             return Ok(result);
         }
 
-        [Route("api/newemp")]
-        [HttpPost]
-        public void post([FromBody]tbl_employee employee)
-        {
-            using (DBSalesChartEntities db = new DBSalesChartEntities())
-            {
-                db.tbl_employee.Add(employee);
-                db.SaveChanges();
-            }
+        //[Route("api/newemp")]
+        //[HttpPost]
+        //public void post([FromBody]tbl_employee employee)
+        //{
+        //    using (DBSalesChartEntities db = new DBSalesChartEntities())
+        //    {
+        //        db.tbl_employee.Add(employee);
+        //        db.SaveChanges();
+        //    }
 
 
-        }
+        //}
 
     }
 }
