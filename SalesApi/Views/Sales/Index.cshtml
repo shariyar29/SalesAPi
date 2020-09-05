@@ -1,0 +1,208 @@
+﻿
+@*@{
+    ViewBag.Title = "Index";
+}*@
+
+<h2>Sales</h2>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="row">
+        <div class="column">
+            <div class="container">
+                <h3>Employess Sales Table</h3>
+
+                <table class="tblsales table-bordered">
+                    <thead>
+                        <tr style="background-color:forestgreen">
+                            <th >Name</th>
+                            <th >Total Sales</th>
+                            <th >Manager </th>
+                    <tbody></tbody>
+
+
+                </table>
+            </div>
+        </div>
+        <div class="column">
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+            <div class="container">
+                <h3>All Sales</h3>
+
+                <table class="tblallsales table-bordered">
+                    <thead>
+                        <tr style="background-color:forestgreen">
+                            <th>Name</th>
+                            <th>Total Sales</th>
+                            <th>Manager </th>
+                    <tbody></tbody>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">New Employee details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="First name">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Last name">
+                                </div>
+                                <div class="col">
+                                    <select class="drp_role form-control form-control-sm">
+                                        <option value="Manager">Manager</option>
+                                        <option value="Sales">Sales</option>
+                                    </select>
+                                    
+                                </div>
+                                <div class="col">
+                                    <select class="drp_mng form-control form-control-sm"></select>
+                                    </div>
+                                </div>
+</form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+</body>
+</html>
+<script>
+$(document).ready(function(){
+	$.ajax({
+		type:'Get',
+		url: "http://localhost:51533/api/sales",
+
+         dataType: 'json',
+         contentType: 'application/json; charset=utf-8',
+
+         success: function (data) {
+$.each(data,function(index,val)
+{
+
+$(".tblsales").append('<tr><td>' + val.EmployeeName+ '</td><td>'+ val.TotalSales + '</td><td>' +val.ManagerName  + '</td></tr>');
+//alert(fullname);
+});
+console.log(data);
+         },
+        fail : function( jqXHR, textStatus ) {
+          alert( "Request failed: " + textStatus );
+}
+})
+
+})
+</script>
+<script>
+$(document).ready(function(){
+	$.ajax({
+		type:'Get',
+		url: "http://localhost:51533/api/allsales",
+
+         dataType: 'json',
+         contentType: 'application/json; charset=utf-8',
+
+         success: function (data) {
+$.each(data,function(index,val)
+{
+
+$(".tblallsales").append('<tr><td>' + val.EmployeeName+ '</td><td>'+ val.SalesAmount + '</td><td>' +val.ManagerName  + '</td></tr>');
+//alert(fullname);
+});
+console.log(data);
+         },
+        fail : function( jqXHR, textStatus ) {
+          alert( "Request failed: " + textStatus );
+}
+})
+
+})
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "http://localhost:51533/api/manager",
+            type: "GET",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+
+            success: function (data) {
+                $.each(data, function (index, val) {
+                    $('.drp_mng')
+                        .append($('<option value='+val.EManager+'>' + val.ManagerName + '</option>')                     
+                        );
+                    
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+</script>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Create two equal columns that floats next to each other */
+    .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+        height: 300px; /* Should be removed. Only for demonstration */
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .tblsales
+    {
+        width:400px;
+        height:180px;
+    }
+    .tblallsales {
+        width: 400px;
+        height: 180px;
+    }
+    th {
+        height: 40px;
+        color: white;
+        text-align: center;
+    }
+    .form-control
+    {
+        margin-left:150px !important;
+    }
+</style>
+
+
